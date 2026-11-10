@@ -1,0 +1,12 @@
+# Compiled classes
+bin/
+*.class
+
+# Runtime files (serialized state and CSV exports are generated, not source)
+*.dat
+exports/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
