@@ -18,11 +18,16 @@ classDiagram
         +getGarments() ArrayList~Garment~
         +findGarmentsByCategory(Category category) ArrayList~Garment~
         +updateBasePrice(Garment garment, long newPrice) void
+        +removeGarment(Garment garment) void
         +addItemToGarment(Garment garment, Size size, Color color) Item
         +addUnits(Item item, int quantity) void
+        +removeItem(Garment garment, Item item) void
+        -isItemSold(Item item) boolean
         +registerSale(ArrayList~SaleLine~ lines) Sale
         +getSales() ArrayList~Sale~
         +findSaleById(int id) Sale
+        +annulSale(int id, String reason) void
+        +getUnitsSold(Item item) int
     }
     class Garment {
         -name : String
@@ -35,6 +40,7 @@ classDiagram
         +getItems() ArrayList~Item~
         +setBasePrice(long newPrice) void
         +addItem(Size size, Color color) Item
+        +removeItem(Item item) void
     }
     class Item {
         -size : Size
@@ -57,7 +63,12 @@ classDiagram
     class Sale {
         -id : int
         -lines : ArrayList~SaleLine~
+        -annulled : boolean
+        -annulmentReason : String
         +getId() int
+        +isAnnulled() boolean
+        +getAnnulmentReason() String
+        +annul(String reason) void
         +getLines() ArrayList~SaleLine~
         +getTotal() long
     }
@@ -72,6 +83,15 @@ classDiagram
     }
     class StockClassifier {
         -store : ClothingStore
+        +classify(Item item) StockLevel
+        +getItemsByLevel(StockLevel level) ArrayList~Item~
+    }
+
+    class StockLevel {
+        <<enumeration>>
+        OUT_OF_STOCK
+        RESTOCK
+        ENOUGH
     }
 
     class Report {
@@ -88,6 +108,11 @@ classDiagram
         +getRows() ArrayList~String~
     }
     class BestSellersReport {
+        +getTitle() String
+        +getHeaders() String
+        +getRows() ArrayList~String~
+    }
+    class AnnulledSalesReport {
         +getTitle() String
         +getHeaders() String
         +getRows() ArrayList~String~
@@ -143,6 +168,7 @@ classDiagram
     Item <|-- LargeSizeItem
     Report <|-- SalesSummaryReport
     Report <|-- BestSellersReport
+    Report <|-- AnnulledSalesReport
 
     %% Association (navigable in one direction only)
     SaleLine "0..*" --> "1" Item : item
@@ -153,4 +179,5 @@ classDiagram
     Garment --> "1" Category : category
     Item --> "1" Size : size
     Item --> "1" Color : color
+    StockClassifier ..> StockLevel : returns
 ```
