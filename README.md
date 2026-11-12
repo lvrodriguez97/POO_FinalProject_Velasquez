@@ -38,9 +38,9 @@ classDiagram
         +getCategory() Category
         +getBasePrice() long
         +getItems() ArrayList~Item~
-        +setBasePrice(long newPrice) void
-        +addItem(Size size, Color color) Item
-        +removeItem(Item item) void
+        #setBasePrice(long newPrice) void
+        #addItem(Size size, Color color) Item
+        #removeItem(Item item) void
     }
     class Item {
         -size : Size
@@ -51,13 +51,13 @@ classDiagram
         +getColor() Color
         +getUnits() int
         +getGarment() Garment
-        +addUnits(int quantity) void
-        +hasEnoughUnits(int quantity) boolean
-        +removeUnits(int quantity) void
+        #addUnits(int quantity) void
+        #hasEnoughUnits(int quantity) boolean
+        #removeUnits(int quantity) void
         +getUnitPrice() long
     }
     class LargeSizeItem {
-        -SURCHARGE$ : long = 5000
+        -LARGE_SIZE_SURCHARGE$ : long = 5000
         +getUnitPrice() long
     }
     class Sale {
