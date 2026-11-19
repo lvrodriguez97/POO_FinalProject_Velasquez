@@ -68,7 +68,7 @@ classDiagram
         +getId() int
         +isAnnulled() boolean
         +getAnnulmentReason() String
-        +annul(String reason) void
+        #annul(String reason) void
         +getLines() ArrayList~SaleLine~
         +getTotal() long
     }

@@ -62,7 +62,7 @@ public class Garment {
         for(Item item : items){
             if(item.getSize() == size && item.getColor() == color){
                 throw new IllegalArgumentException("La combinación " + size + " · " + color
-                        + " ya existe en " + name + ". Use la opción 'Agregar unidades'.");
+                        + " ya existe en " + getName() + ". Use la opción 'Agregar unidades'.");
             }
         }
         Item newItem;
