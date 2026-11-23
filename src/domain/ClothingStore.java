@@ -170,4 +170,24 @@ public class ClothingStore {
             line.getItem().addUnits(line.getQuantity());
         }
     }
+
+    // --- Queries ---
+
+    // Total units of this item sold in sales that are not annulled.
+    // Unlike isItemSold, it skips annulled sales (their units went back
+    // to the stock) and it never stops early: it must count every sale.
+    // Used by BestSellersReport and StockClassifier.
+    public int getUnitsSold(Item item){
+        int unitsSold = 0;
+        for(Sale sale : getSales()){
+            if(!sale.isAnnulled()){
+                for(SaleLine line: sale.getLines()){
+                    if(line.getItem() == item){
+                        unitsSold += line.getQuantity();
+                    }
+                }
+            }
+        }
+        return unitsSold;
+    }
 }
