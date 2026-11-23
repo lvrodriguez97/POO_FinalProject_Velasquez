@@ -78,7 +78,7 @@ public class ClothingStore {
     // with this exact item (== compares the same object in memory).
     // Returns as soon as it finds one.
     private boolean isItemSold(Item item){
-        for(Sale sale: sales){
+        for(Sale sale: getSales()){
             for(SaleLine line: sale.getLines()){
                 if(item == line.getItem()){
                     return true;
@@ -104,5 +104,70 @@ public class ClothingStore {
             }
         }
         garments.remove(garment);
+    }
+
+    // --- Sales ---
+
+    // Returns a copy: callers can read the sales but not add or remove them.
+    public ArrayList<Sale> getSales(){
+        return new ArrayList<>(sales);
+    }
+
+    // Returns the sale with that id as soon as it finds it.
+    // Throws an exception instead of returning null when it does not exist.
+    public Sale findSaleById(int id){
+        for(Sale sale: getSales()){
+            if(sale.getId() == id){
+                return sale;
+            }
+        }
+        throw new IllegalArgumentException("No existe una venta con ese ID");
+    }
+
+    // Registers a sale built by the user interface and returns it.
+    // First checks every line, then changes the stock: if any line fails,
+    // nothing is discounted and no sale is created (all or nothing).
+    public Sale registerSale(ArrayList<SaleLine> lines){
+        ArrayList<Item> seen = new ArrayList<>();
+
+        // Checks only: rejects repeated items (bad input) and lines
+        // without enough units (the current stock cannot serve them).
+        for(SaleLine line:lines){
+            if(seen.contains(line.getItem())){
+                throw new IllegalArgumentException("Operación fallida: "+line.getItem().getGarment().getName()+
+                "\nTalla: "+line.getItem().getSize()+
+                "\nColor: "+line.getItem().getColor()+ "\nEstá repetido en la venta");
+            }
+            if(!line.getItem().hasEnoughUnits(line.getQuantity())){
+                throw new IllegalStateException("Operación fallida: "+line.getItem().getGarment().getName()+
+                "\nTalla: "+line.getItem().getSize()+
+                "\nColor: "+line.getItem().getColor()+ "\nNo tiene suficientes unidades en stock ("+line.getItem().getUnits()+")");
+            }
+            seen.add(line.getItem());
+        }
+
+        // Every line passed: discount the units and create the sale.
+        // The sale is created before increasing the counter, so a failed
+        // constructor never skips an id.
+        for(SaleLine line: lines){
+            line.getItem().removeUnits(line.getQuantity());
+        }
+        Sale newSale = new Sale(nextSaleId, lines);
+        nextSaleId++;
+        sales.add(newSale);
+        return newSale;
+    }
+
+    // Annuls a sale and returns its units to the stock. The sale stays in
+    // the list as a historical record; annulled sales are found by filtering
+    // with isAnnulled(), so no separate list is needed.
+    public void annulSale(int id, String reason){
+        Sale annulmentAttemptSale;
+        annulmentAttemptSale = findSaleById(id);
+        annulmentAttemptSale.annul(reason);
+
+        for(SaleLine line: annulmentAttemptSale.getLines()){
+            line.getItem().addUnits(line.getQuantity());
+        }
     }
 }
