@@ -8,6 +8,10 @@ import java.util.ArrayList;
 // Serializable: saved to a file together with the whole store.
 public class Garment implements Serializable {
 
+    // Fixed version of the class for saved files: changing the class later
+    // does not make previously saved files unreadable.
+    private static final long serialVersionUID = 1L;
+
     private final String name;
     private final Category category;
     private long basePrice; 

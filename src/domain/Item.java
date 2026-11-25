@@ -7,6 +7,10 @@ import java.io.Serializable;
 // Serializable: saved to a file together with the whole store.
 public class Item implements Serializable {
 
+    // Fixed version of the class for saved files: changing the class later
+    // does not make previously saved files unreadable.
+    private static final long serialVersionUID = 1L;
+
     private final Garment garment;
     private final Size size;
     private final Color color;

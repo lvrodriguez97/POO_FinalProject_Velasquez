@@ -4,6 +4,8 @@ package domain;
 // but its unit price includes a fixed surcharge for the extra fabric.
 public class LargeSizeItem extends Item{
 
+    // Own version for saved files: it inherits Serializable from Item.
+    private static final long serialVersionUID = 1L;
     private static final long LARGE_SIZE_SURCHARGE = 5000;
 
     // Package-private: only Garment creates items.
