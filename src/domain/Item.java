@@ -1,8 +1,11 @@
 package domain;
 
+import java.io.Serializable;
+
 // A size and color combination of a garment, with its own stock of units.
 // Example: "Oversize Shirt, M, BLACK, 5 units".
-public class Item {
+// Serializable: saved to a file together with the whole store.
+public class Item implements Serializable {
 
     private final Garment garment;
     private final Size size;

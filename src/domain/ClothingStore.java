@@ -1,11 +1,13 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // The facade of the domain: the user interface goes through the store
 // for every operation. The store creates and owns the garments and the sales,
 // and enforces the rules that involve more than one object.
-public class ClothingStore {
+// Serializable: saved to a file together with the whole store.
+public class ClothingStore implements Serializable {
 
     private final ArrayList<Garment> garments;
     private final ArrayList<Sale> sales;

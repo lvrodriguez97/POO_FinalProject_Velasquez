@@ -1,10 +1,12 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // A garment model, for example "Oversize Shirt". It has a name, a category
 // and a base price, and owns its items (one per size and color combination).
-public class Garment {
+// Serializable: saved to a file together with the whole store.
+public class Garment implements Serializable {
 
     private final String name;
     private final Category category;

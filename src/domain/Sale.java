@@ -1,10 +1,12 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // A completed sale: an id and one or more sale lines.
 // Sales are never deleted; they can only be annulled, keeping the record.
-public class Sale {
+// Serializable: saved to a file together with the whole store.
+public class Sale implements Serializable {
 
     private final int id;
     private final ArrayList<SaleLine> lines;

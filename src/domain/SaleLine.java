@@ -1,9 +1,12 @@
 package domain;
 
+import java.io.Serializable;
+
 // One line of a sale: an item, how many units were sold and the unit price
 // at the moment of the sale. Quantity and price belong to the combination
 // of an item with a sale, not to either of them alone.
-public class SaleLine {
+// Serializable: saved to a file together with the whole store.
+public class SaleLine implements Serializable {
 
     private final Item item;
     private final int quantity;
